@@ -11,11 +11,6 @@ export default defineComponent({
   name: 'App',
   components: {
     HelloWorld
-  },
-  data() {
-    return {
-      hahah: 'aaa'
-    }
   }
 })
 </script>
