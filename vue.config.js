@@ -1,10 +1,10 @@
 module.exports = {
-  outputDir: './build',
-  configureWebpack: {
-    resolve: {
-      alias: {
-        components: '@/components'
-      }
-    }
-  }
+  // outputDir: './build',
+  // configureWebpack: {
+  //   resolve: {
+  //     alias: {
+  //       components: '@/components'
+  //     }
+  //   }
+  // }
 }
