@@ -1,4 +1,3 @@
-import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export interface XKRequestInterceptors {
@@ -15,4 +14,5 @@ export interface XKRequestInterceptors {
 //继承AxiosRequestConfig,扩展属性类型
 export interface XKRequestConfig extends AxiosRequestConfig {
   interceptors?: XKRequestInterceptors
+  showLoading?: Boolean
 }
