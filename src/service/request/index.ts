@@ -54,21 +54,43 @@ class XKRequest {
       }
     )
   }
-  request(config: XKRequestConfig): void {
-    //单独一个请求的拦截设置
-    //只有调用请求是传入拦截器函数才会调用
-    if (config.showLoading === false) {
-      this.showLoading = false
-    }
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors?.requestInterceptor(config)
-    }
-    this.instance.request(config).then((res) => {
-      if (config.interceptors?.responseInterceptor) {
-        res = config.interceptors?.responseInterceptor(res)
+  request<T>(config: XKRequestConfig<T>): Promise<T> {
+    return new Promise((resolve, reject) => {
+      //单独一个请求的拦截设置
+      //只有调用请求是传入拦截器函数才会调用
+      if (config.showLoading === false) {
+        this.showLoading = false
       }
-      console.log(res)
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors?.requestInterceptor(config)
+      }
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptor) {
+            res = config.interceptors?.responseInterceptor(res)
+          }
+          this.showLoading = false
+          resolve(res)
+        })
+        .catch((err) => {
+          this.showLoading = false
+          reject(err)
+          return err
+        })
     })
+  }
+  get<T>(config: XKRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+  post<T>(config: XKRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'POST' })
+  }
+  patch<T>(config: XKRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
+  }
+  delete<T>(config: XKRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' })
   }
 }
 

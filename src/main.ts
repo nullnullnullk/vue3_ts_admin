@@ -13,11 +13,23 @@ app.use(router)
 app.use(store)
 app.mount('#app')
 
-xkRequest.request({
-  method: 'GET',
-  url: '/home/multidata',
-  showLoading: false
-})
+interface DateType {
+  data: any
+  returnCode: string
+  success: boolean
+}
+
+xkRequest
+  .request<DateType>({
+    method: 'GET',
+    url: '/home/multidata',
+    showLoading: false
+  })
+  .then((res) => {
+    console.log(res.data)
+    console.log(res.returnCode)
+    console.log(res.success)
+  })
 
 // xkRequest.request({
 //   method: 'GET',
