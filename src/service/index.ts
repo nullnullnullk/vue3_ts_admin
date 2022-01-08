@@ -5,7 +5,7 @@ const xkRequest = new XKRequest({
   timeout: process.env.VUE_APP_TIMEOUT,
   interceptors: {
     requestInterceptor: (config: any) => {
-      console.log('发送成功', config)
+      // console.log('发送成功', config)
       const token = ''
       if (token) {
         config.headers.Authorization = 'ad' + token
@@ -16,7 +16,7 @@ const xkRequest = new XKRequest({
       console.log('发送失败', error)
     },
     responseInterceptor: (res) => {
-      console.log('响应成功', res)
+      // console.log('响应成功', res)
       return res
     },
     responseInterceptorCatch: (error) => {

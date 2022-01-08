@@ -35,7 +35,7 @@ class XKRequest {
             background: 'rgba(0,0,0, 0.5)'
           })
         }
-        console.log('全局请求请求成功拦截器')
+        // console.log('全局请求请求成功拦截器')
         return config
       },
       (error) => {
@@ -44,8 +44,11 @@ class XKRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        this.loading?.close()
-        console.log('全局请求响应成功拦截器')
+        setTimeout(() => {
+          this.loading?.close()
+        }, 1000)
+
+        // console.log('全局请求响应成功拦截器')
         return res.data
       },
       (error) => {

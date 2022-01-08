@@ -4,7 +4,10 @@ import router from './router'
 import store from './store'
 import App from './App.vue'
 import xkRequest from './service'
-import 'element-plus/dist/index.css'
+
+import './assets/css/index.less'
+import 'normalize.css'
+import 'element-plus/theme-chalk/el-loading.css'
 
 const app = createApp(App)
 
@@ -22,26 +25,10 @@ interface DateType {
 xkRequest
   .request<DateType>({
     method: 'GET',
-    url: '/home/multidata',
-    showLoading: false
+    url: '/home/multidata'
   })
   .then((res) => {
     console.log(res.data)
-    console.log(res.returnCode)
-    console.log(res.success)
+    // console.log(res.returnCode)
+    // console.log(res.success)
   })
-
-// xkRequest.request({
-//   method: 'GET',
-//   url: '/home/multidata',
-//   interceptors: {
-//     requestInterceptor: (config) => {
-//       console.log('单独请求拦截')
-//       return config
-//     },
-//     responseInterceptor: (res) => {
-//       console.log('单独响应拦截')
-//       return res
-//     }
-//   }
-// })
