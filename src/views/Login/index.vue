@@ -25,7 +25,7 @@ export default defineComponent({
   align-items: center;
   width: 100%;
   height: 100%;
-  background-image: url('../../assets/images/1627539239(1).jpg');
+  background-image: url('../../assets/images/preview.jpg');
   background-size: 100% 100%;
 }
 </style>

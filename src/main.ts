@@ -3,7 +3,7 @@ import { globalRegisterApp } from './global'
 import router from './router'
 import store from './store'
 import App from './App.vue'
-import xkRequest from './service'
+// import xkRequest from './service'
 
 import './assets/css/index.less'
 import 'normalize.css'
@@ -16,19 +16,19 @@ app.use(router)
 app.use(store)
 app.mount('#app')
 
-interface DateType {
-  data: any
-  returnCode: string
-  success: boolean
-}
+// interface DateType {
+//   data: any
+//   returnCode: string
+//   success: boolean
+// }
 
-xkRequest
-  .request<DateType>({
-    method: 'GET',
-    url: '/home/multidata'
-  })
-  .then((res) => {
-    console.log(res.data)
-    // console.log(res.returnCode)
-    // console.log(res.success)
-  })
+// xkRequest
+//   .request<DateType>({
+//     method: 'GET',
+//     url: '/home/multidata'
+//   })
+//   .then((res) => {
+//     console.log(res.data)
+//     // console.log(res.returnCode)
+//     // console.log(res.success)
+//   })
