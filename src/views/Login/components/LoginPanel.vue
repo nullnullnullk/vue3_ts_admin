@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, nextTick } from 'vue'
+import { defineComponent, ref } from 'vue'
 import LoginAccount from './Account.vue'
 import LoginPhone from './Phone.vue'
 export default defineComponent({
@@ -45,11 +45,7 @@ export default defineComponent({
     const isKeepPassword = ref(true)
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
     const handleLogin = () => {
-      console.log('handleLogin')
-      nextTick(() => {
-        console.log(accountRef)
-        accountRef.value?.loginAction()
-      })
+      accountRef.value?.loginAction(isKeepPassword.value)
     }
     return {
       isKeepPassword,
