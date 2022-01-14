@@ -12,6 +12,7 @@
 <script lang="ts">
 import type { ElForm } from 'element-plus'
 import { defineComponent, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 import { rules } from '../config/accountConfig'
 import localCache from '@/utils/cache'
 export default defineComponent({
@@ -21,6 +22,7 @@ export default defineComponent({
       name: localCache.getCache('user')?.name ?? '',
       password: localCache.getCache('user')?.password ?? ''
     })
+    const store = useStore()
     const formRef = ref<InstanceType<typeof ElForm>>()
     const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
@@ -33,6 +35,12 @@ export default defineComponent({
             localCache.deleteCache('user')
           }
           //2：开始登录验证
+          //  1登录的逻辑（网络请求，拿到数据后的处理）
+          //  2数据的保存到某一个位置
+          //  3发送其他请求（请求当前用户的信息）
+          //  4拿到用户的菜单
+          //  5跳到首页
+          store.dispatch('login/accountLoginAction', { ...user })
         }
       })
     }

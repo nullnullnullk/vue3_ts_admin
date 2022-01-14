@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel">
     <h2>vue3后台管理系统</h2>
-    <el-tabs type="border-card" stretch>
-      <el-tab-pane>
+    <el-tabs type="border-card" stretch v-model="cunrentType">
+      <el-tab-pane name="user">
         <template #label>
           <span>
             <el-icon class="icon"><user /></el-icon>
@@ -11,14 +11,14 @@
         </template>
         <LoginAccount ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span>
             <el-icon class="icon"><iphone /></el-icon>
             <span class="icon">&nbsp;手机登录</span>
           </span>
         </template>
-        <LoginPhone />
+        <LoginPhone ref="phoneRef" />
       </el-tab-pane>
     </el-tabs>
     <div class="account-control">
@@ -44,13 +44,22 @@ export default defineComponent({
   setup() {
     const isKeepPassword = ref(true)
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const cunrentType = ref<string>('user')
+
     const handleLogin = () => {
-      accountRef.value?.loginAction(isKeepPassword.value)
+      if (cunrentType.value === 'user') {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        console.log('手机登录')
+      }
     }
     return {
       isKeepPassword,
-      handleLogin,
-      accountRef
+      accountRef,
+      phoneRef,
+      cunrentType,
+      handleLogin
     }
   }
 })
