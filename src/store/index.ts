@@ -16,8 +16,7 @@ const store = createStore<IRootState>({
   }
 })
 //刷新重载vuex里的用户数据
-export function setupStore() {
-  console.log(11)
+export function setupStore(): void {
   store.dispatch('login/loadLocalLogin')
 }
 export default store
