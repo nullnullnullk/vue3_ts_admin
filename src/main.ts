@@ -3,7 +3,7 @@ import { globalRegisterApp } from './global'
 import router from './router'
 import store from './store'
 import App from './App.vue'
-// import xkRequest from './service'
+import { setupStore } from './store/index'
 
 import './assets/css/index.less'
 import 'normalize.css'
@@ -14,6 +14,7 @@ const app = createApp(App)
 app.use(globalRegisterApp)
 app.use(router)
 app.use(store)
+setupStore()
 app.mount('#app')
 
 // interface DateType {

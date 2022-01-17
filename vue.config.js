@@ -5,7 +5,17 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
   outputDir: './dist',
-  // publicPath: './', //生产环境要删除，打包后本地测试适用
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
   configureWebpack: {
     resolve: {
       alias: {

@@ -1,25 +1,79 @@
 import { Module } from 'vuex'
 import { ILoginState } from './types'
 import { IRootState } from '../types'
+import {
+  accountLoginRequest,
+  getUserInfoById,
+  getUserMenusById
+} from '@/service/login/index'
+import router from '@/router/index'
+import type { IAccount } from '@/service/login/types'
+import localCache from '@/utils/cache'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
   state() {
     return {
       token: '',
-      userInfo: {}
+      userInfo: {},
+      userMenus: []
     }
   },
   getters: {},
   actions: {
-    accountLoginAction({ commit }, payload: any) {
-      console.log('执行accountLoginAction', payload)
+    async accountLoginAction({ commit }, payload: IAccount) {
+      //实现登录逻辑
+
+      //1:请求token
+      const loginResult = await accountLoginRequest(payload)
+      const { id, token } = loginResult.data
+      //vuex保存一份
+      commit('CHANGE_TOKEN', token)
+      //本地保存一份
+      localCache.setCache('token', token)
+
+      //2:请求用户的信息
+      const userInfoResult = await getUserInfoById(id)
+      const userInfo = userInfoResult.data
+      commit('CHANGE_USER_INFO', userInfo)
+      localCache.setCache('userInfo', userInfo)
+
+      //3:请求用户菜单
+      const userMenusResult = await getUserMenusById(userInfo.role.id)
+      const userMenus = userMenusResult.data
+      commit('CHANGE_USER_MENUS', userMenus)
+      localCache.setCache('userMenus', userMenus)
+
+      //4:跳转首页
+      router.push('/home')
     },
-    phoneLoginActon({ commit }, payload: any) {
-      console.log('执行phoneLoginActon', payload)
+    loadLocalLogin({ commit }) {
+      //用户刷新，从本地继续拿到数据赋值给vuex
+      const token = localCache.getCache('token')
+      if (token) {
+        commit('CHANGE_TOKEN', token)
+      }
+      const userInfo = localCache.getCache('userInfo')
+      if (userInfo) {
+        commit('CHANGE_USER_INFO', userInfo)
+      }
+      const userMenus = localCache.getCache('userMenus')
+      if (userMenus) {
+        commit('CHANGE_USER_MENUS', userMenus)
+      }
     }
   },
-  mutations: {}
+  mutations: {
+    CHANGE_TOKEN(state, token: string) {
+      state.token = token
+    },
+    CHANGE_USER_INFO(state, userInfo: any) {
+      state.userInfo = userInfo
+    },
+    CHANGE_USER_MENUS(state, userMenus: any) {
+      state.userMenus = userMenus
+    }
+  }
 }
 
 export default loginModule

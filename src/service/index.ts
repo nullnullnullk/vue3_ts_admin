@@ -1,14 +1,17 @@
 import XKRequest from './request'
+import localCache from '@/utils/cache'
 
 const xkRequest = new XKRequest({
   baseURL: process.env.VUE_APP_BASE_URL,
   timeout: process.env.VUE_APP_TIMEOUT,
   interceptors: {
     requestInterceptor: (config: any) => {
-      // console.log('发送成功', config)
-      const token = ''
+      const token = localCache.getCache('token')
+      // debugger
       if (token) {
-        config.headers.Authorization = 'ad' + token
+        config.headers.Authorization = `${token}`
+        // debugger
+        // console.log(config)
       }
       return config
     },
