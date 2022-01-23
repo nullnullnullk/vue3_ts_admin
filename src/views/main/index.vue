@@ -1,40 +1,53 @@
 <template>
-  <div class="home">
-    <el-container class="home-content">
-      <el-aside width="210px">
-        <NavMenu />
+  <div class="main">
+    <el-container class="main-content">
+      <el-aside :width="isCollapse ? '50px' : '210px'">
+        <NavMenu :isCollapse="isCollapse" />
       </el-aside>
       <el-container class="page">
-        <el-header class="page-header">Header</el-header>
-        <el-main class="page-content">Main</el-main>
+        <el-header class="page-header">
+          <HomeHeader @handleCollapse="handleCollapse" />
+        </el-header>
+        <el-main class="page-content">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import NavMenu from '@/components/NavMenu/index.vue'
+import HomeHeader from '@/components/HomeHeader/index.vue'
 export default defineComponent({
-  name: 'Home',
+  name: 'Main',
   components: {
-    NavMenu
+    NavMenu,
+    HomeHeader
   },
   setup() {
-    return {}
+    const isCollapse = ref<boolean>(false)
+    const handleCollapse = (Collapse: boolean) => {
+      isCollapse.value = Collapse
+    }
+    return {
+      isCollapse,
+      handleCollapse
+    }
   }
 })
 </script>
 
 <style scoped lang='less'>
-.home {
+.main {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.home-content,
+.main-content,
 .page {
   height: 100%;
 }
@@ -51,7 +64,7 @@ export default defineComponent({
 .el-aside {
   overflow-x: hidden;
   overflow-y: auto;
-  line-height: 200px;
+  line-height: 48px;
   text-align: left;
   cursor: pointer;
   background-color: #001529;
