@@ -11,7 +11,7 @@ export default function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
     const route = require('../router/main' + key.split('.')[1])
     allRoutes.push(route.default)
   })
-  //2:根据菜单获取需要调价的routes
+  //2:根据菜单获取需要的routes
   //userMenus:
   // type === 1 -> children -> type === 1
   // type === 2 -> url -> route
