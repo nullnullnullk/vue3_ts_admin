@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { IFormItem, IForm } from '@/components/Form/type'
+import { IFormItem } from '@/components/Form/type'
 export default defineComponent({
   name: 'XkForm',
   props: {
