@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import localCache from '@/utils/cache'
 import type { RouteRecordRaw } from 'vue-router'
+import { firstMenu } from '@/utils/mapMenusToRoutes'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -36,6 +37,10 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login'
     }
+  }
+  // 当我们path是main的时候，跳转到默认跳转到第一个匹配到的path
+  if (to.path === '/main') {
+    return firstMenu.url
   }
 })
 

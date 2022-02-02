@@ -5,7 +5,7 @@
     </div>
     <div class="menu-box">
       <el-menu
-        default-active="1"
+        :default-active="defaultActive"
         :collapse="isCollapse"
         class="el-menu-vertical-demo"
         active-text-color="#0a60bd"
@@ -27,15 +27,12 @@
                   :key="secondMenu.id"
                   :index="secondMenu.id + ''"
                   @click="handleMenu(secondMenu)"
-                  >{{ secondMenu.name }}</el-menu-item
-                >
+                >{{ secondMenu.name }}</el-menu-item>
               </template>
             </el-sub-menu>
           </template>
           <template v-else>
-            <el-menu-item :index="firstMenu.id + ''">
-              {{ firstMenu.name }}
-            </el-menu-item>
+            <el-menu-item :index="firstMenu.id + ''">{{ firstMenu.name }}</el-menu-item>
           </template>
         </template>
       </el-menu>
@@ -44,10 +41,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useStore } from '@/store/index'
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/mapMenusToRoutes'
 interface IMenuItem {
   children: Array<object>
   icon: string
@@ -67,18 +65,22 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const route = useRoute()
     const store = useStore()
     const userMenus = computed(() => {
       return store.state.login.userMenus
     })
     const handleMenu = (item: IMenuItem) => {
-      console.log(item)
       router.push({
         path: item.url
       })
     }
+    // 根据当前path选中 对应的导航栏
+    const menu = pathMapToMenu(userMenus.value, route.path)
+    const defaultActive = ref(menu.id + '')
     return {
       userMenus,
+      defaultActive,
       handleMenu
     }
   }
