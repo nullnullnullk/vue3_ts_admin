@@ -4,7 +4,9 @@
       <component :is="isFold ? 'fold' : 'expand'" @click="handleFold" />
     </el-icon>
     <div class="content">
-      <div>面包屑</div>
+      <div class="breadcrumd">
+        <XKBreadcrumd :breadcrumbs="breadcrumbs" />
+      </div>
       <div class="user-panel">
         <el-dropdown>
           <span class="el-dropdown-link">
@@ -29,11 +31,18 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import { useStore } from '@/store/index'
+import { useRoute } from 'vue-router'
+import XKBreadcrumd, { IBreadcrumb } from '@/components/Breadcrumd/index'
+import { pathMapBreadcrumds } from '@/utils/mapMenusToRoutes'
 export default defineComponent({
   name: 'HomeHeader',
+  components: {
+    XKBreadcrumd
+  },
   emits: ['handleCollapse'],
   setup(_, { emit }) {
     const store = useStore()
+    const route = useRoute()
     const userName = computed<string>(() => {
       return store.state.login.userInfo.name
     })
@@ -42,10 +51,18 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('handleCollapse', isFold.value)
     }
+
+    //面包屑数据
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const currentPath = route.path
+      return pathMapBreadcrumds(userMenus, currentPath)
+    })
     return {
       isFold,
       userName,
-      handleFold
+      handleFold,
+      breadcrumbs
     }
   }
 })
