@@ -32,7 +32,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import { useStore } from '@/store/index'
 import { useRoute } from 'vue-router'
-import XKBreadcrumd, { IBreadcrumb } from '@/components/Breadcrumd/index'
+import XKBreadcrumd from '@/components/Breadcrumd/index'
 import { pathMapBreadcrumds } from '@/utils/mapMenusToRoutes'
 export default defineComponent({
   name: 'HomeHeader',
